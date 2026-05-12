@@ -1,0 +1,25 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+# {{ ansible_managed }}
+
+# REWRITES
+
+{% for id in syslog_rewrites.keys() %}
+rewrite {{ id }} {
+  {% for dic in syslog_rewrites.get(id, []) %}
+    {% if dic.comment is defined %}
+  # {{ dic.comment }}
+      {% set _ = dic.pop('comment') %}
+    {% endif %}
+    {% for k, v in dic.items() %}
+      {% if v is iterable and (v is not string and v is not mapping) %}
+        {% for item in v %}
+  {{ k | replace('_', '-') }}({{ '%s' | format(item) if item else '' }});
+        {% endfor %}
+      {% else %}
+  {{ k | replace('_', '-') }}({{ '%s' | format(v) if v else '' }});
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+};
+
+{% endfor %}
