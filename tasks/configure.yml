@@ -47,6 +47,7 @@
     - destinations.conf
     - filters.conf
     - logs.conf
+    - rewrites.conf
   tags:
     - syslog-ng
     - configuration
