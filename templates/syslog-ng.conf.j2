@@ -27,6 +27,7 @@ template {{ k }} {
   {% endfor %}
 {% endif %}
 
+@include "conf.d/rewrites.conf"
 @include "conf.d/sources.conf"
 @include "conf.d/destinations.conf"
 @include "conf.d/filters.conf"
