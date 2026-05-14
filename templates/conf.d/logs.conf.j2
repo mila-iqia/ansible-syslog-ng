@@ -14,6 +14,9 @@ log {
         v.filter.filter | default('') | string | length > 0 %}
   filter(f_{{ _filter_name }});
   {% endif %}
+  {% if v.rewrite is defined %}
+  rewrite({{ v.rewrite  }});
+  {% endif %}
   destination(d_{{ k }});
   {% if v.final is defined or v.flags is defined %}
     {% if v.flags is defined %}

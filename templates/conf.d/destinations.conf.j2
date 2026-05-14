@@ -34,7 +34,11 @@ destination d_{{ k }}  {
       {% set _net = v.destination.syslog %}
       {% set _net_type = "syslog" %}
     {% endif %}
-  {% if _net_type in ["udp", "tcp", "network", "syslog"] %}
+    {% if v.destination.http is defined and v.destination.http | bodsch.core.type == "dict" and v.destination.http | count > 0 %}
+      {% set _net = v.destination.http %}
+      {% set _net_type = "http" %}
+    {% endif %}
+  {% if _net_type in ["udp", "tcp", "network", "syslog", "http"] %}
   {{ _net_type }}(
     {% set network_definition = _net | syslog_network_definition("destination") %}
     {% for k, v in network_definition.items() %}
