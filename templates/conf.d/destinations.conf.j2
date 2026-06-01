@@ -38,19 +38,31 @@ destination d_{{ k }}  {
       {% set _net = v.destination.http %}
       {% set _net_type = "http" %}
     {% endif %}
-  {% if _net_type in ["udp", "tcp", "network", "syslog", "http"] %}
+    {% if v.destination.loki is defined and v.destination.loki | bodsch.core.type == "dict" and v.destination.loki | count > 0 %}
+      {% set _net = v.destination.loki %}
+      {% set _net_type = "loki" %}
+    {% endif %}
+    {% if _net_type in ["udp", "tcp", "network", "syslog", "http", "loki"] %}
   {{ _net_type }}(
     {% set network_definition = _net | syslog_network_definition("destination") %}
-    {% for k, v in network_definition.items() %}
-      {% if k == "ip" %}
-    {{ v }}
+    {% for net_k, net_v in network_definition.items() %}
+      {% if net_k == "ip" %}
+    {{ net_v }}
+      {% elif net_k == "labels" %}
+    labels(
+        {% for label_k, label_v in _net.labels.items() %}
+      "{{ label_k }}" => "{{ label_v }}"{{ "," if not loop.last }}
+        {% endfor %}
+    )
+      {% elif net_k == "auth" %}
+    auth({{ _net.auth }})
       {% else %}
-        {% if v | bodsch.core.type != "dict" %}
-    {{ k }}{{ v }}
+        {% if net_v | bodsch.core.type != "dict" %}
+    {{ net_k }}{{ net_v }}
         {% else %}
-    {{ k }}(
-          {% for kk, vv in v.items() %}
-      {{ kk }}{{ vv }}
+    {{ net_k }}(
+          {% for sub_k, sub_v in net_v.items() %}
+      {{ sub_k }}{{ sub_v }}
           {% endfor %}
     )
         {% endif %}

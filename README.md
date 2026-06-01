@@ -115,12 +115,13 @@ A simplified configuration that should be sufficient for most cases.
 | `destination.udp`   | `false`  | `-`               | `udp` log Destination to an remote syslog server. |
 | `destination.tcp`   | `false`  | `-`               | `tcp` log Destination to an remote syslog server. |
 | `destination.http`   | `false`  | `-`               | `http` log Destination to an remote syslog server. Requires `syslog-ng-mod-http` package |
+| `destination.loki`   | `false`  | `-`               | `loki` log Destination to an remote syslog server. Requires `syslog-ng-mod-http` and `syslog-mod-grpc` packages |
 | `filter.name`       | `false`  | `${key}`          | An (optional) name of the filter. If it is not specified, the `${key}` is used as name. |
 | `filter.filter`     | `false`  | `program(${key})` | The syslog filter. This can be a simple string or a list of strings.<br>The list is connected with an `and`.  |
 | `final`             | `false`  | `false`           | whether set a final flag                         |
 
 > **Only one log destination may be defined!**
-> **So either `file`, `http` or `udp` / `tcp`!**
+> **So either `file`, `http`, `loki` or `udp` / `tcp`!**
 
 #### Example
 
