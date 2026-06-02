@@ -19,6 +19,8 @@ syslog_journald:
 
 syslog_hardened: false
 
+syslog_rewrites: {}
+
 syslog_systemd_template: default
 
 syslog_includes: []
