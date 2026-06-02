@@ -47,8 +47,19 @@ Tested on
 * ArchLinux
 * ArtixLinux
 * Debian based
-    - Debian 10 / 11 / 12
+    - Debian 10 / 11 / 12 / 13
     - Ubuntu 20.04 / 22.04
+
+## Repos
+
+You can install from a specific repo, using :
+```yaml
+syslog_repo_key: https://ose-repo.syslog-ng.com/apt/syslog-ng-ose-pub.asc
+syslog_repository: https://ose-repo.syslog-ng.com/apt/
+syslog_os_version: debian-trixie
+```
+
+syslog-ng will be installed from your distribution repos if you don't declare those vars.
 
 ## usage
 
